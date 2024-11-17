@@ -1,4 +1,5 @@
 use crate::config::{FileDialogConfig, FileFilter};
+use dotthz::DotthzFile;
 use egui::mutex::Mutex;
 use indexmap::IndexMap;
 use std::path::{Path, PathBuf};
@@ -75,6 +76,34 @@ impl DirectoryEntry {
                             other_data
                                 .insert("Colorspace".to_string(), format!("{:?}", meta.color));
                             other_data.insert("Format".to_string(), format!("{:?}", meta.format));
+                        }
+                    }
+                    "thz" => {
+                        if let Ok(file) = DotthzFile::load(&path.to_path_buf()) {
+                            other_data.insert(
+                                "Groups: ".to_string(),
+                                format!("{:?}", file.groups.keys()),
+                            );
+                            if let Some((name, measurement)) = file.groups.get_index(0) {
+                                other_data.insert(
+                                    "Description".to_string(),
+                                    measurement.meta_data.description.clone(),
+                                );
+                                dbg!(&measurement.meta_data.md);
+                                for (name, md) in measurement.meta_data.md.clone() {
+                                    other_data.insert(name, md);
+                                }
+                                other_data
+                                    .insert("Mode".to_string(), measurement.meta_data.mode.clone());
+                                other_data.insert(
+                                    "Version".to_string(),
+                                    measurement.meta_data.version.clone(),
+                                );
+                                other_data.insert(
+                                    "Instrument".to_string(),
+                                    measurement.meta_data.instrument.clone(),
+                                );
+                            }
                         }
                     }
                     _ => {}

@@ -41,12 +41,13 @@ indexmap = { version = "2.6.0", features = ["serde"] }
 # Used for info panel
 image-meta = { version = "0.1.2",  optional = true }
 chrono = { version = "0.4.38", optional = true }
+dotthz = { version = "0.1.2", optional = true}
 
 [features]
 default = ["serde", "default_fonts"]
 serde = ["dep:serde"]
 default_fonts = ["egui/default_fonts"]
-info_panel = ["dep:chrono", "image-meta"]
+info_panel = ["dep:chrono", "image-meta", "dotthz"]
 
 [lints.rust]
 unsafe_code = "forbid"
