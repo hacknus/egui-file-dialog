@@ -43,7 +43,7 @@ impl eframe::App for MyApp {
                 println!("opening window!");
             }
 
-            self.file_dialog.set_right_panel_width(300.0);
+            self.file_dialog.set_right_panel_width(200.0);
 
             if let Some(path) = self
                 .file_dialog
